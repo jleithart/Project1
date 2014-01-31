@@ -3,8 +3,8 @@
 
 Sphere::Sphere(void)
 {
-	range[0] = -5.12;
-	range[1] = 5.12;
+	range[LOW_RANGE] = -5.12;
+	range[HI_RANGE] = 5.12;
 	for(int i = 0; i < DIMENSIONS; i++)
 		x_vector[i] = 0.0;
 }
