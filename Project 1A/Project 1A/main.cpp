@@ -1,4 +1,5 @@
 #include "Sphere.h"
+#include "Schwefel.h"
 #include "function.h"
 #include <iostream>
 #include <assert.h>
@@ -21,20 +22,33 @@ bool AcceptFitness(const double, const double, const double);
 int main(){
 
 	Sphere *search_sphere = new Sphere();
+	Schwefel *search_schwefel = new Schwefel();
 	char tmp;
 	//randomize the seed
 	srand(time(NULL));
 
 	double minimizingSphereVector[DIMENSIONS];
 	double sphereSimulatedAnnealingVector[DIMENSIONS];
+	double SchwefelVector[DIMENSIONS];
 
 	//grab array of random vectors
 	RandomizeVector(search_sphere, minimizingSphereVector);
 	RandomizeVector(search_sphere, sphereSimulatedAnnealingVector);
+
+	//randomize Schwefel vectors
+	RandomizeVector(search_schwefel, SchwefelVector);
+
+	PrintVector(SchwefelVector);
+	cout << endl << search_schwefel->Fitness(SchwefelVector) << endl;
+	HillClimb(search_schwefel, SchwefelVector);
+	cout << endl;
+	PrintVector(SchwefelVector);
+	cout << endl << search_schwefel->Fitness(SchwefelVector) << endl;
+
 	// use separate function to find local minimum;
 
 	//HILL CLIMBING
-	PrintVector(minimizingSphereVector);
+	/*PrintVector(minimizingSphereVector);
 	cout << endl << search_sphere->Fitness(minimizingSphereVector) << endl;
 	HillClimb(search_sphere, minimizingSphereVector);
 	cout << endl;
@@ -49,6 +63,7 @@ int main(){
 	cout << endl;
 	PrintVector(sphereSimulatedAnnealingVector);
 	cout << endl << search_sphere->Fitness(sphereSimulatedAnnealingVector) << endl;
+	*/
 
 	cin >> tmp;
 
@@ -145,7 +160,7 @@ void HillClimb(function * i_function, double m_array[DIMENSIONS]){
 	double neighbor[DIMENSIONS];
 	int index = 0;
 	bool raise = false;
-	float rateofchange = 1000.0;
+	float rateofchange = 100.0;
 	char tmp;
 
 	//copy over the original array so we can hold the values
@@ -156,7 +171,7 @@ void HillClimb(function * i_function, double m_array[DIMENSIONS]){
 		//grab neighbors
 		AdjustNeighbor(index, raise, i_function, rateofchange, neighbor);
 		tmp_fitness = i_function->Fitness(neighbor);
-		//cout << "index:: " << index << " value:: " << neighbor[index] << " fitness " << tmp_fitness << endl;
+		cout << "index:: " << index << " value:: " << neighbor[index] << " fitness " << tmp_fitness << endl;
 
 		// check if the new vector is better than the original
 		if(tmp_fitness <= min_fitness){
