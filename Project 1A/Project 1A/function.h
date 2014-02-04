@@ -9,6 +9,9 @@ protected:
 	double x_vector[DIMENSIONS];
 public:
 	double range[2];
+	double probabilityConstant;
+	double rateOfChange;
+	double temperatureAdjustment;
 	function(void);
 	~function(void);
 	virtual double Fitness(double const []) = 0;

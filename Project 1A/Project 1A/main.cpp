@@ -17,7 +17,7 @@ void SimulatedAnnealing(function *, double []);
 void CopyVector(const double [], double []);
 void AdjustNeighbor(const int, const bool, const function *, const float, double []);
 void AdjustNeighborSA(const function *, const float, double []);
-bool AcceptFitness(const double, const double, const double);
+bool AcceptFitness(const double, const double, const double, const double);
 
 int main(){
 
@@ -29,14 +29,20 @@ int main(){
 
 	double minimizingSphereVector[DIMENSIONS];
 	double sphereSimulatedAnnealingVector[DIMENSIONS];
+	double schefelSAVector[DIMENSIONS];
 	double SchwefelVector[DIMENSIONS];
+	double tmpSchwefelVector[DIMENSIONS];
 
 	//grab array of random vectors
+	/*
 	RandomizeVector(search_sphere, minimizingSphereVector);
 	RandomizeVector(search_sphere, sphereSimulatedAnnealingVector);
+	*/
 
 	//randomize Schwefel vectors
 	RandomizeVector(search_schwefel, SchwefelVector);
+	CopyVector(SchwefelVector, tmpSchwefelVector);
+	//RandomizeVector(search_schwefel, schefelSAVector);
 
 	PrintVector(SchwefelVector);
 	cout << endl << search_schwefel->Fitness(SchwefelVector) << endl;
@@ -45,10 +51,20 @@ int main(){
 	PrintVector(SchwefelVector);
 	cout << endl << search_schwefel->Fitness(SchwefelVector) << endl;
 
+	cout << "SA on same" << endl;
+	PrintVector(tmpSchwefelVector);
+	cout << endl << search_schwefel->Fitness(tmpSchwefelVector) << endl;
+	SimulatedAnnealing(search_schwefel, tmpSchwefelVector);
+	cout << endl;
+	PrintVector(tmpSchwefelVector);
+	cout << endl << search_schwefel->Fitness(tmpSchwefelVector) << endl;
+
 	// use separate function to find local minimum;
 
 	//HILL CLIMBING
-	/*PrintVector(minimizingSphereVector);
+	/*
+	cout << "sphere" << endl;
+	PrintVector(minimizingSphereVector);
 	cout << endl << search_sphere->Fitness(minimizingSphereVector) << endl;
 	HillClimb(search_sphere, minimizingSphereVector);
 	cout << endl;
@@ -59,10 +75,18 @@ int main(){
 	cout << "SA" << endl;
 	PrintVector(sphereSimulatedAnnealingVector);
 	cout << endl << search_sphere->Fitness(sphereSimulatedAnnealingVector) << endl;
-	SimulatedAnnealing(search_sphere, sphereSimulatedAnnealingVector);
+	//SimulatedAnnealing(search_sphere, sphereSimulatedAnnealingVector);
 	cout << endl;
 	PrintVector(sphereSimulatedAnnealingVector);
 	cout << endl << search_sphere->Fitness(sphereSimulatedAnnealingVector) << endl;
+
+	cout << "Schwefel SA" << endl;
+	PrintVector(schefelSAVector);
+	cout << endl << search_schwefel->Fitness(schefelSAVector) << endl;
+	SimulatedAnnealing(search_schwefel, schefelSAVector);
+	cout << endl;
+	PrintVector(schefelSAVector);
+	cout << endl << search_schwefel->Fitness(schefelSAVector) << endl;
 	*/
 
 	cin >> tmp;
@@ -79,15 +103,15 @@ void RandomizeVector(const function *i_function, double m_array[DIMENSIONS]){
 	}
 }
 
-bool AcceptFitness(const double i_originalFitness, const double i_newFitness, const double i_temperature){
+bool AcceptFitness(const double i_originalFitness, const double i_newFitness, const double i_temperature, const double i_probabilityConstant){
 	char debug;
 	double threshold = ((double) rand())/(RAND_MAX + 1);
-	double probability = exp(-10*((i_newFitness - i_originalFitness)/i_temperature));
+	double probability = exp(-i_probabilityConstant*((i_newFitness - i_originalFitness)/i_temperature));
 	if(i_newFitness < i_originalFitness){
 		return true;
 	}
 	else{
-		cout << "threshold:: " << threshold << " probability:: " << probability << endl;
+		//cout << "threshold:: " << threshold << " probability:: " << probability << endl;
 		//cin >> debug;
 		return (threshold < probability);
 	}
@@ -96,6 +120,7 @@ bool AcceptFitness(const double i_originalFitness, const double i_newFitness, co
 void AdjustNeighborSA(const function *i_function, const float i_rateofchange, double m_array[DIMENSIONS]){
 	//what's the rate of change?
 	double changeValue = (i_function->range[HI_RANGE] - i_function->range[LOW_RANGE])/i_rateofchange;
+	//double changeValue = 0.01;
 
 	for(int i = 0; i < DIMENSIONS; i++){
 		int change = rand()%4;
@@ -120,7 +145,7 @@ void SimulatedAnnealing(function * i_function, double m_vector[DIMENSIONS]){
 	double tmp_fitness;
 	double neighbor[DIMENSIONS];
 	int index = 0;
-	double temperature = 100;
+	double temperature = 100.0;
 	double rateOfChange;
 	bool raise = false;
 	//char tmp;
@@ -132,13 +157,13 @@ void SimulatedAnnealing(function * i_function, double m_vector[DIMENSIONS]){
 	while(temperature > 0){
 		//for T (temperature) = 100 to 0 step -.1
 		//pick a neighbor of S1 called S2
-		rateOfChange = 1000.0/temperature;
+		rateOfChange = i_function->rateOfChange/temperature;
 		AdjustNeighborSA(i_function, rateOfChange, neighbor);
 		tmp_fitness = i_function->Fitness(neighbor);
 		
 		// if S2 is better replace
-		cout << "tmp_fitness:: " << tmp_fitness << " min_fitness:: " << min_fitness << endl;
-		if(AcceptFitness(min_fitness, tmp_fitness, temperature) ){
+		//cout << "tmp_fitness:: " << tmp_fitness << " min_fitness:: " << min_fitness << endl;
+		if(AcceptFitness(min_fitness, tmp_fitness, temperature, i_function->probabilityConstant) ){
 			min_fitness = tmp_fitness;
 			CopyVector(neighbor, m_vector);
 		}
@@ -149,7 +174,7 @@ void SimulatedAnnealing(function * i_function, double m_vector[DIMENSIONS]){
 		// else with a probability replace them anyways
 		//probability function is generally e^(-c(fitness1 - fitness 2)/T)
 
-		temperature -= 0.1;
+		temperature -= i_function->temperatureAdjustment;
 	}
 	//pick a random solution S1
 }
@@ -160,7 +185,7 @@ void HillClimb(function * i_function, double m_array[DIMENSIONS]){
 	double neighbor[DIMENSIONS];
 	int index = 0;
 	bool raise = false;
-	float rateofchange = 100.0;
+	float rateOfChange = 1000.0;
 	char tmp;
 
 	//copy over the original array so we can hold the values
@@ -169,12 +194,13 @@ void HillClimb(function * i_function, double m_array[DIMENSIONS]){
 
 	while(index < 30){
 		//grab neighbors
-		AdjustNeighbor(index, raise, i_function, rateofchange, neighbor);
+		//AdjustNeighborSA(i_function, rateOfChange, neighbor);
+		AdjustNeighbor(index, raise, i_function, rateOfChange, neighbor);
 		tmp_fitness = i_function->Fitness(neighbor);
-		cout << "index:: " << index << " value:: " << neighbor[index] << " fitness " << tmp_fitness << endl;
+		//cout << "index:: " << index << " value:: " << neighbor[index] << " fitness " << tmp_fitness << endl;
 
 		// check if the new vector is better than the original
-		if(tmp_fitness <= min_fitness){
+		if(tmp_fitness < min_fitness){
 			min_fitness = tmp_fitness;
 			CopyVector(neighbor, m_array);
 			index = 0;
