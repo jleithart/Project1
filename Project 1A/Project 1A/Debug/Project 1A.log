@@ -1,31 +1,24 @@
-﻿Build started 2/3/2014 1:09:57 PM.
-     1>Project "C:\Users\Jleithart\Documents\Visual Studio 2010\Projects\CS 472\Project 1A\Project 1A\Project 1A.vcxproj" on node 2 (build target(s)).
+﻿Build started 2/4/2014 10:13:34 PM.
+     1>Project "F:\GitHub Projects\Project1\Project 1A\Project 1A\Project 1A.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Project 1A.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
-         main.cpp
-     1>c:\users\jleithart\documents\visual studio 2010\projects\cs 472\project 1a\project 1a\main.cpp(28): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\jleithart\documents\visual studio 2010\projects\cs 472\project 1a\project 1a\main.cpp(31): warning C4101: 'sphereSimulatedAnnealingVector' : unreferenced local variable
-     1>c:\users\jleithart\documents\visual studio 2010\projects\cs 472\project 1a\project 1a\main.cpp(30): warning C4101: 'minimizingSphereVector' : unreferenced local variable
-     1>c:\users\jleithart\documents\visual studio 2010\projects\cs 472\project 1a\project 1a\main.cpp(32): warning C4101: 'schefelSAVector' : unreferenced local variable
-     1>c:\users\jleithart\documents\visual studio 2010\projects\cs 472\project 1a\project 1a\main.cpp(107): warning C4101: 'debug' : unreferenced local variable
-     1>c:\users\jleithart\documents\visual studio 2010\projects\cs 472\project 1a\project 1a\main.cpp(161): warning C4244: 'argument' : conversion from 'double' to 'const float', possible loss of data
-     1>c:\users\jleithart\documents\visual studio 2010\projects\cs 472\project 1a\project 1a\main.cpp(189): warning C4101: 'tmp' : unreferenced local variable
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Schwefel.cpp
+         Schwefel.cpp
        Link:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jleithart\Documents\Visual Studio 2010\Projects\CS 472\Project 1A\Debug\Project 1A.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Project 1A.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Jleithart\Documents\Visual Studio 2010\Projects\CS 472\Project 1A\Debug\Project 1A.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jleithart\Documents\Visual Studio 2010\Projects\CS 472\Project 1A\Debug\Project 1A.lib" /MACHINE:X86 Debug\function.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\GitHub Projects\Project1\Project 1A\Debug\Project 1A.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Project 1A.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"F:\GitHub Projects\Project1\Project 1A\Debug\Project 1A.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\GitHub Projects\Project1\Project 1A\Debug\Project 1A.lib" /MACHINE:X86 Debug\function.obj
          Debug\main.obj
          Debug\Schwefel.obj
          Debug\Sphere.obj
      1>function.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
-         Project 1A.vcxproj -> C:\Users\Jleithart\Documents\Visual Studio 2010\Projects\CS 472\Project 1A\Debug\Project 1A.exe
+         Project 1A.vcxproj -> F:\GitHub Projects\Project1\Project 1A\Debug\Project 1A.exe
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Jleithart\Documents\Visual Studio 2010\Projects\CS 472\Project 1A\Debug\Project 1A.exe;#1" /manifest "Debug\Project 1A.exe.intermediate.manifest"
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"F:\GitHub Projects\Project1\Project 1A\Debug\Project 1A.exe;#1" /manifest "Debug\Project 1A.exe.intermediate.manifest"
        FinalizeBuildStatus:
          Deleting file "Debug\Project 1A.unsuccessfulbuild".
          Touching "Debug\Project 1A.lastbuildstate".
-     1>Done Building Project "C:\Users\Jleithart\Documents\Visual Studio 2010\Projects\CS 472\Project 1A\Project 1A\Project 1A.vcxproj" (build target(s)).
+     1>Done Building Project "F:\GitHub Projects\Project1\Project 1A\Project 1A\Project 1A.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.14
+Time Elapsed 00:00:00.29

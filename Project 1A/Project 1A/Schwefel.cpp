@@ -7,9 +7,12 @@ Schwefel::Schwefel(void)
 {
 	range[LOW_RANGE] = -512.03;
 	range[HI_RANGE] = 511.97;
-	probabilityConstant = 1.0;
-	rateOfChange = 1000.0;
+	probabilityConstant = 9.5;
+	rateOfChange = 1020.0;
 	temperatureAdjustment = 0.0001;
+	for(int i = 0; i  < DIMENSIONS; i++){
+		x_vector[i] = -420.9687;
+	}
 }
 
 

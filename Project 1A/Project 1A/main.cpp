@@ -4,7 +4,9 @@
 #include <iostream>
 #include <assert.h>
 #include <time.h>
+#include <fstream>
 
+#define DEBUG false
 #define INF 10000000000.0
 
 
@@ -19,27 +21,54 @@ void AdjustNeighbor(const int, const bool, const function *, const float, double
 void AdjustNeighborSA(const function *, const float, double []);
 bool AcceptFitness(const double, const double, const double, const double);
 
+void StandardDeviation(const function *, const double []);
+
+ofstream debugFile;
+
 int main(){
 
 	Sphere *search_sphere = new Sphere();
 	Schwefel *search_schwefel = new Schwefel();
 	char tmp;
+
+	if(DEBUG){
+		debugFile.open("debug.txt");
+	}
 	//randomize the seed
 	srand(time(NULL));
 
-	double minimizingSphereVector[DIMENSIONS];
-	double sphereSimulatedAnnealingVector[DIMENSIONS];
-	double schefelSAVector[DIMENSIONS];
+	double SphereVector[DIMENSIONS];
+	double tmpSphereVector[DIMENSIONS];
 	double SchwefelVector[DIMENSIONS];
 	double tmpSchwefelVector[DIMENSIONS];
 
-	//grab array of random vectors
-	/*
-	RandomizeVector(search_sphere, minimizingSphereVector);
-	RandomizeVector(search_sphere, sphereSimulatedAnnealingVector);
-	*/
+	cout << "SPHERE VECTORS!!" << endl;
+	//randomize Sphere vector
+	RandomizeVector(search_sphere, SphereVector);
+	CopyVector(SphereVector, tmpSphereVector);
 
-	//randomize Schwefel vectors
+	cout << "HILL CLIMBING" << endl;
+	PrintVector(SphereVector);
+	cout << endl << search_sphere->Fitness(SphereVector) << endl;
+	HillClimb(search_sphere, SphereVector);
+	cout << endl;
+	PrintVector(SphereVector);
+	cout << endl << search_sphere->Fitness(SphereVector) << endl;
+	StandardDeviation(search_sphere, SphereVector);
+
+	//simulated annealing
+	cout << "SA" << endl;
+	PrintVector(tmpSphereVector);
+	cout << endl << search_sphere->Fitness(tmpSphereVector) << endl;
+	SimulatedAnnealing(search_sphere, tmpSphereVector);
+	cout << endl;
+	PrintVector(tmpSphereVector);
+	cout << endl << search_sphere->Fitness(tmpSphereVector) << endl;
+	StandardDeviation(search_sphere, tmpSphereVector);
+
+
+	cout << "SCHWEFEL VECTORS!!" << endl;
+	//randomize Schwefel vector
 	RandomizeVector(search_schwefel, SchwefelVector);
 	CopyVector(SchwefelVector, tmpSchwefelVector);
 	//RandomizeVector(search_schwefel, schefelSAVector);
@@ -50,6 +79,7 @@ int main(){
 	cout << endl;
 	PrintVector(SchwefelVector);
 	cout << endl << search_schwefel->Fitness(SchwefelVector) << endl;
+	StandardDeviation(search_schwefel, SchwefelVector);
 
 	cout << "SA on same" << endl;
 	PrintVector(tmpSchwefelVector);
@@ -58,40 +88,27 @@ int main(){
 	cout << endl;
 	PrintVector(tmpSchwefelVector);
 	cout << endl << search_schwefel->Fitness(tmpSchwefelVector) << endl;
+	StandardDeviation(search_schwefel, tmpSchwefelVector);
 
 	// use separate function to find local minimum;
 
-	//HILL CLIMBING
-	/*
-	cout << "sphere" << endl;
-	PrintVector(minimizingSphereVector);
-	cout << endl << search_sphere->Fitness(minimizingSphereVector) << endl;
-	HillClimb(search_sphere, minimizingSphereVector);
-	cout << endl;
-	PrintVector(minimizingSphereVector);
-	cout << endl << search_sphere->Fitness(minimizingSphereVector) << endl;
-
-	//simulated annealing
-	cout << "SA" << endl;
-	PrintVector(sphereSimulatedAnnealingVector);
-	cout << endl << search_sphere->Fitness(sphereSimulatedAnnealingVector) << endl;
-	//SimulatedAnnealing(search_sphere, sphereSimulatedAnnealingVector);
-	cout << endl;
-	PrintVector(sphereSimulatedAnnealingVector);
-	cout << endl << search_sphere->Fitness(sphereSimulatedAnnealingVector) << endl;
-
-	cout << "Schwefel SA" << endl;
-	PrintVector(schefelSAVector);
-	cout << endl << search_schwefel->Fitness(schefelSAVector) << endl;
-	SimulatedAnnealing(search_schwefel, schefelSAVector);
-	cout << endl;
-	PrintVector(schefelSAVector);
-	cout << endl << search_schwefel->Fitness(schefelSAVector) << endl;
-	*/
-
 	cin >> tmp;
 
+	if(DEBUG){
+		debugFile.close();
+	}
+
 	return 0;
+}
+
+void StandardDeviation(const function *i_function, const double i_vector[DIMENSIONS]){
+	double sum = 0.0;
+	for(int i = 0; i < DIMENSIONS; i++){
+		sum += ((i_vector[i] - i_function->x_vector[i])*(i_vector[i] - i_function->x_vector[i]));
+	}
+	sum = sum/DIMENSIONS;
+	sum = sqrt(sum);
+	cout << "The Standard Deviation is " << sum << endl;
 }
 
 void RandomizeVector(const function *i_function, double m_array[DIMENSIONS]){
@@ -111,6 +128,9 @@ bool AcceptFitness(const double i_originalFitness, const double i_newFitness, co
 		return true;
 	}
 	else{
+		if(DEBUG){
+			debugFile << "threshold:: " << threshold << " probability:: " << probability << endl;
+		}
 		//cout << "threshold:: " << threshold << " probability:: " << probability << endl;
 		//cin >> debug;
 		return (threshold < probability);
@@ -164,6 +184,9 @@ void SimulatedAnnealing(function * i_function, double m_vector[DIMENSIONS]){
 		// if S2 is better replace
 		//cout << "tmp_fitness:: " << tmp_fitness << " min_fitness:: " << min_fitness << endl;
 		if(AcceptFitness(min_fitness, tmp_fitness, temperature, i_function->probabilityConstant) ){
+			if(DEBUG){
+				debugFile << "tmp_fitness:: " << tmp_fitness << " min_fitness:: " << min_fitness << endl;
+			}
 			min_fitness = tmp_fitness;
 			CopyVector(neighbor, m_vector);
 		}
