@@ -8,6 +8,7 @@ Sphere::Sphere(void)
 	probabilityConstant = 10.0;
 	rateOfChange = 500.0;
 	temperatureAdjustment = 0.001;
+
 	for(int i = 0; i < DIMENSIONS; i++)
 		x_vector[i] = 0.0;
 }

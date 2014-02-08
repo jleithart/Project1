@@ -10,6 +10,7 @@ Schwefel::Schwefel(void)
 	probabilityConstant = 9.5;
 	rateOfChange = 1020.0;
 	temperatureAdjustment = 0.0001;
+	TourneySize = 5;
 	for(int i = 0; i  < DIMENSIONS; i++){
 		x_vector[i] = -420.9687;
 	}

@@ -1,11 +1,10 @@
 #pragma once
-#define DIMENSIONS 30
-#define LOW_RANGE 0
-#define HI_RANGE 1
+#include "globals.h"
 
 class function
 {
 public:
+	int TourneySize;
 	double x_vector[DIMENSIONS];
 	double range[2];
 	double probabilityConstant;

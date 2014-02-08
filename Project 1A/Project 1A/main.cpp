@@ -1,13 +1,10 @@
 #include "Sphere.h"
 #include "Schwefel.h"
 #include "function.h"
-#include <iostream>
-#include <assert.h>
-#include <time.h>
-#include <fstream>
+#include "GeneticAlgorithm.h"
 
-#define DEBUG false
-#define INF 10000000000.0
+
+
 
 
 using namespace std;
@@ -31,18 +28,26 @@ int main(){
 	Schwefel *search_schwefel = new Schwefel();
 	char tmp;
 
-	if(DEBUG){
+	/*if(DEBUG){
 		debugFile.open("debug.txt");
-	}
+	}*/
 	//randomize the seed
 	srand(time(NULL));
+
+	GeneticAlgorithm *GA = new GeneticAlgorithm(search_sphere);
+	GA->Init();
+	GA->PrintPopulation();
+
+	cout << "wop wop" << endl;
+	GA->Search();
 
 	double SphereVector[DIMENSIONS];
 	double tmpSphereVector[DIMENSIONS];
 	double SchwefelVector[DIMENSIONS];
 	double tmpSchwefelVector[DIMENSIONS];
 
-	cout << "SPHERE VECTORS!!" << endl;
+
+	/*cout << "SPHERE VECTORS!!" << endl;
 	//randomize Sphere vector
 	RandomizeVector(search_sphere, SphereVector);
 	CopyVector(SphereVector, tmpSphereVector);
@@ -88,15 +93,15 @@ int main(){
 	cout << endl;
 	PrintVector(tmpSchwefelVector);
 	cout << endl << search_schwefel->Fitness(tmpSchwefelVector) << endl;
-	StandardDeviation(search_schwefel, tmpSchwefelVector);
+	StandardDeviation(search_schwefel, tmpSchwefelVector);*/
 
 	// use separate function to find local minimum;
 
 	cin >> tmp;
 
-	if(DEBUG){
+	/*if(DEBUG){
 		debugFile.close();
-	}
+	}*/
 
 	return 0;
 }
