@@ -23,5 +23,8 @@ public:
 	void CopyIndividual(const double[], double []);
 
 	void CalcFitness();
+
+	void ResetPopulation();
+	void ResetIndividual(double []);
 };
 

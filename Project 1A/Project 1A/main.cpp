@@ -20,25 +20,24 @@ bool AcceptFitness(const double, const double, const double, const double);
 
 void StandardDeviation(const function *, const double []);
 
-ofstream debugFile;
-
 int main(){
 
 	Sphere *search_sphere = new Sphere();
 	Schwefel *search_schwefel = new Schwefel();
 	char tmp;
 
-	/*if(DEBUG){
-		debugFile.open("debug.txt");
-	}*/
+	if(DEBUG){
+		//debugFile.open("debug.txt");
+	}
 	//randomize the seed
 	srand(time(NULL));
 
 	GeneticAlgorithm *GA = new GeneticAlgorithm(search_sphere);
 	GA->Init();
-	GA->PrintPopulation();
+	//GA->PrintPopulation();
+	GA->PrintFitness();
 
-	cout << "wop wop" << endl;
+	//cout << "wop wop" << endl;
 	GA->Search();
 
 	double SphereVector[DIMENSIONS];
@@ -97,11 +96,12 @@ int main(){
 
 	// use separate function to find local minimum;
 
-	cin >> tmp;
+	GA->PrintFitness();
 
-	/*if(DEBUG){
-		debugFile.close();
-	}*/
+	cin >> tmp;
+	if(DEBUG){
+		//debugFile.close();
+	}
 
 	return 0;
 }
@@ -134,7 +134,7 @@ bool AcceptFitness(const double i_originalFitness, const double i_newFitness, co
 	}
 	else{
 		if(DEBUG){
-			debugFile << "threshold:: " << threshold << " probability:: " << probability << endl;
+			//debugFile << "threshold:: " << threshold << " probability:: " << probability << endl;
 		}
 		//cout << "threshold:: " << threshold << " probability:: " << probability << endl;
 		//cin >> debug;
@@ -190,7 +190,7 @@ void SimulatedAnnealing(function * i_function, double m_vector[DIMENSIONS]){
 		//cout << "tmp_fitness:: " << tmp_fitness << " min_fitness:: " << min_fitness << endl;
 		if(AcceptFitness(min_fitness, tmp_fitness, temperature, i_function->probabilityConstant) ){
 			if(DEBUG){
-				debugFile << "tmp_fitness:: " << tmp_fitness << " min_fitness:: " << min_fitness << endl;
+				//debugFile << "tmp_fitness:: " << tmp_fitness << " min_fitness:: " << min_fitness << endl;
 			}
 			min_fitness = tmp_fitness;
 			CopyVector(neighbor, m_vector);

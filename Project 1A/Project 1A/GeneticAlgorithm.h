@@ -14,6 +14,7 @@ private:
 public:
 	
 	void PrintPopulation();
+	void PrintFitness();
 	void Init();
 	
 	void Search();
@@ -22,6 +23,7 @@ public:
 
 	void Select();
 	int TourneySelect();	//returns the index (max pop) of the winner
+	int GetBestIndividual(); //returns the index of the best individual for elitism
 	void Crossover(double [], double []);
 	void Mutate(double []);
 

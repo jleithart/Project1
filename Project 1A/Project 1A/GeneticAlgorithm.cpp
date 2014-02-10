@@ -20,24 +20,38 @@ GeneticAlgorithm::~GeneticAlgorithm(void)
 
 void GeneticAlgorithm::PrintPopulation(){
 	searchPopulation->PrintPopulation();
+}
+
+void GeneticAlgorithm::PrintFitness(){
 	searchPopulation->CalcFitness();
 }
 	
 void GeneticAlgorithm::Search(){
 	char tmp;
+	double bestIndividual[DIMENSIONS];
+	int bestIndex;
 	//do this later
 	//how many generations?
+
 	for(int i = 0; i < NUM_GENERATIONS; i++){
+		//Find the best individual and elitist them over
+		bestIndex = GetBestIndividual();
+
+		CopyIndividual(searchPopulation->GetIndividual(bestIndex), bestIndividual);
+		selectedPopulation->AddIndividual(bestIndividual);
+		selectedPopulation->AddIndividual(bestIndividual);
+
 		for(int j = 0; j < MAX_POPULATION; j++){
 			Select();
 		}
 
-		// NOT DEEP COPYING ONLY SHALLOW COPYING
-		searchPopulation = selectedPopulation;
-		//CopyPopulation(selectedPopulation, searchPopulation);
-		PrintPopulation();
+		//we don't reinitialize selectedPopulation
+		//searchPopulation = selectedPopulation;
+		CopyPopulation(selectedPopulation, searchPopulation);
+		selectedPopulation->ResetPopulation();
 		if(DEBUG){
-			std::cin >> tmp;
+			//debugFile << "generation:: " << i << std::endl;
+			searchPopulation->CalcFitness();
 		}
 	}
 }
@@ -63,6 +77,17 @@ void GeneticAlgorithm::Select(){
 	selectedPopulation->AddIndividual(secondParent);
 }
 
+int GeneticAlgorithm::GetBestIndividual(){
+	char tmp;
+	int index = 0;
+	for(int i = 1; i < MAX_POPULATION; i++){
+		if(searchPopulation->GetFitness(index) > searchPopulation->GetFitness(i)){
+			index = i;
+		}
+	}
+	return index;
+}
+
 int GeneticAlgorithm::TourneySelect(){	//returns the index (max pop) of the winner
 
 	int winningIndex = rand()%MAX_POPULATION;
@@ -70,11 +95,10 @@ int GeneticAlgorithm::TourneySelect(){	//returns the index (max pop) of the winn
 
 	for(int i = 0; i < TourneySize; i++){
 		tmpIndex = rand()%MAX_POPULATION;
-		if(searchPopulation->GetFitness(winningIndex) > searchPopulation->GetFitness(tmpIndex)){
+		if(searchPopulation->GetFitness(tmpIndex) < searchPopulation->GetFitness(winningIndex) ){
 			winningIndex = tmpIndex;
 		}
 	}
-
 	return winningIndex;
 }
 
@@ -84,18 +108,22 @@ void GeneticAlgorithm::Crossover(double [], double []){
 
 void GeneticAlgorithm::Mutate(double individual[]){
 	//adjust neighbors
-	int tmpIndex = rand()%DIMENSIONS;	//random index to mutate
 	double changeValue = (searchFunction->range[HI_RANGE] - searchFunction->range[LOW_RANGE])/searchFunction->rateOfChange;
-	int isPositive = rand()%2; //positive for negative
-	if(isPositive){
-		individual[tmpIndex] += changeValue;
-		if(individual[tmpIndex] > searchFunction->range[HI_RANGE])
-			individual[tmpIndex] = searchFunction->range[HI_RANGE];
-	}
-	else{
-		individual[tmpIndex] -= changeValue;
-		if(individual[tmpIndex] < searchFunction->range[LOW_RANGE])
-			individual[tmpIndex] = searchFunction->range[LOW_RANGE];
+	for(int i = 0; i < DIMENSIONS; i++){
+		int change = rand()%4;
+		if(change <= 2){
+			if(change == 1){
+				individual[i] += changeValue;
+				if(individual[i] > searchFunction->range[HI_RANGE]){
+					individual[i] = searchFunction->range[HI_RANGE];
+				}
+			}
+			else{
+				individual[i] -= changeValue;
+				if(individual[i] < searchFunction->range[LOW_RANGE])
+					individual[i] = searchFunction->range[LOW_RANGE];
+				}
+		}
 	}
 }
 
@@ -110,16 +138,30 @@ void GeneticAlgorithm::PrintIndividual(const double vector[]){
 	if(DEBUG){
 		std::cin >> tmp;
 	}
+	std::cout << std::endl;
 	for(int i = 0; i < DIMENSIONS; i++){
-		std::cout << vector[i] << std::endl;
+		std::cout << vector[i] << ", ";
 	}
+	std::cout << std::endl;
 	if(DEBUG){
 		std:: cin >> tmp;
 	}
 }
 
 void GeneticAlgorithm::CopyPopulation(Population *i_population, Population *m_population){
+	char tmp;
 	for(int i = 0; i < MAX_POPULATION; i++){
+		if(DEBUG){
+			//std::cout << std::endl << "BEFORE COPY::" << std::endl;
+			//PrintIndividual(i_population->GetIndividual(i));
+			//PrintIndividual(m_population->GetIndividual(i));
+		}
 		CopyIndividual(i_population->GetIndividual(i), m_population->GetIndividual(i));
+		if(DEBUG){
+			//std::cout << "AFTER COPY::" << std::endl;
+			//PrintIndividual(i_population->GetIndividual(i));
+			//PrintIndividual(m_population->GetIndividual(i));
+			//std::cin >> tmp;
+		}
 	}
 }

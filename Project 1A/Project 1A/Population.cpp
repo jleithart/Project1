@@ -33,6 +33,19 @@ void Population::InitializePopulation(){
 	}
 }
 
+void Population::ResetPopulation(){
+	for(int i = 0; i < MAX_POPULATION; i++){
+		ResetIndividual(population[i]);
+	}
+	curIndex = 0;
+}
+
+void Population::ResetIndividual(double m_vector[DIMENSIONS]){
+	for(int i = 0; i < DIMENSIONS; i++){
+		m_vector[i] = 0.0;
+	}
+}
+
 
 void Population::PrintPopulation(){
 	for(int i = 0; i < MAX_POPULATION; i++){
@@ -67,9 +80,7 @@ void Population::InitializeVector(double m_array[DIMENSIONS]){
 void Population::CalcFitness(){
 	for(int i = 0; i < MAX_POPULATION; i++){
 		fitnessPopulation[i] = searchFunction->Fitness(population[i]);
-		if(DEBUG){
-			std::cout << "Population:: " << i << " Fitness:: " << fitnessPopulation[i] << std::endl;
-		}
+		std::cout << "Population:: " << i << " Fitness:: " << fitnessPopulation[i] << std::endl;
 	}
 }
 

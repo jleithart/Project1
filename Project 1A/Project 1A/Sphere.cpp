@@ -6,8 +6,9 @@ Sphere::Sphere(void)
 	range[LOW_RANGE] = -5.12;
 	range[HI_RANGE] = 5.12;
 	probabilityConstant = 10.0;
-	rateOfChange = 500.0;
+	rateOfChange = 1000.0;
 	temperatureAdjustment = 0.001;
+	TourneySize = 3;	//adjust the tourney size
 
 	for(int i = 0; i < DIMENSIONS; i++)
 		x_vector[i] = 0.0;
