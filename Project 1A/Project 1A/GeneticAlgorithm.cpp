@@ -7,6 +7,7 @@ GeneticAlgorithm::GeneticAlgorithm(function * i_function)
 	searchPopulation = new Population(searchFunction);
 	selectedPopulation = new Population(searchFunction);
 	TourneySize = i_function->TourneySize;
+	debugFile.open("debug.txt");
 }
 
 void GeneticAlgorithm::Init(){
@@ -49,11 +50,13 @@ void GeneticAlgorithm::Search(){
 		//searchPopulation = selectedPopulation;
 		CopyPopulation(selectedPopulation, searchPopulation);
 		selectedPopulation->ResetPopulation();
+		//searchPopulation->CalcFitness();
 		if(DEBUG){
 			//debugFile << "generation:: " << i << std::endl;
 			searchPopulation->CalcFitness();
 		}
 	}
+	debugFile.close();
 }
 
 void GeneticAlgorithm::Select(){
@@ -108,9 +111,11 @@ void GeneticAlgorithm::Crossover(double [], double []){
 
 void GeneticAlgorithm::Mutate(double individual[]){
 	//adjust neighbors
+	char tmp;
 	double changeValue = (searchFunction->range[HI_RANGE] - searchFunction->range[LOW_RANGE])/searchFunction->rateOfChange;
+	int change;
 	for(int i = 0; i < DIMENSIONS; i++){
-		int change = rand()%4;
+		change = rand()%4;
 		if(change <= 2){
 			if(change == 1){
 				individual[i] += changeValue;
@@ -157,6 +162,7 @@ void GeneticAlgorithm::CopyPopulation(Population *i_population, Population *m_po
 			//PrintIndividual(m_population->GetIndividual(i));
 		}
 		CopyIndividual(i_population->GetIndividual(i), m_population->GetIndividual(i));
+		m_population->fitnessPopulation[i] = searchFunction->Fitness(i_population->GetIndividual(i));
 		if(DEBUG){
 			//std::cout << "AFTER COPY::" << std::endl;
 			//PrintIndividual(i_population->GetIndividual(i));
@@ -164,4 +170,17 @@ void GeneticAlgorithm::CopyPopulation(Population *i_population, Population *m_po
 			//std::cin >> tmp;
 		}
 	}
+}
+
+void GeneticAlgorithm::GetBest(){
+	double bestVector[DIMENSIONS];
+	CopyIndividual(searchPopulation->GetIndividual(GetBestIndividual()), bestVector);
+
+	double sum = 0.0;
+	for(int i = 0; i < DIMENSIONS; i++){
+		sum += ((bestVector[i] - searchFunction->x_vector[i])*(bestVector[i] - searchFunction->x_vector[i]));
+	}
+	sum = sum/DIMENSIONS;
+	sum = sqrt(sum);
+	std::cout << "The Standard Deviation is " << sum << std::endl;
 }

@@ -1,6 +1,6 @@
 #define DIMENSIONS 30
 #define MAX_POPULATION 100
-#define NUM_GENERATIONS 50
+#define NUM_GENERATIONS 5000
 #define LOW_RANGE 0
 #define HI_RANGE 1
 #define DEBUG false

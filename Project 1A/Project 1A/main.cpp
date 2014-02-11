@@ -98,6 +98,8 @@ int main(){
 
 	GA->PrintFitness();
 
+	GA->GetBest();
+
 	cin >> tmp;
 	if(DEBUG){
 		//debugFile.close();

@@ -5,10 +5,11 @@ class Population
 {
 private:
 	double population[MAX_POPULATION][DIMENSIONS];
-	double fitnessPopulation[MAX_POPULATION];
 	function *searchFunction;
 	int curIndex;	//for inserting a new individual on selection
 public:
+	double fitnessPopulation[MAX_POPULATION];
+
 	Population(function *);
 	~Population(void);
 	void InitializePopulation();
@@ -23,6 +24,7 @@ public:
 	void CopyIndividual(const double[], double []);
 
 	void CalcFitness();
+	void CalcFitness(std::ofstream &);
 
 	void ResetPopulation();
 	void ResetIndividual(double []);

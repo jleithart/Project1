@@ -8,7 +8,7 @@ Sphere::Sphere(void)
 	probabilityConstant = 10.0;
 	rateOfChange = 1000.0;
 	temperatureAdjustment = 0.001;
-	TourneySize = 3;	//adjust the tourney size
+	TourneySize = 30;	//adjust the tourney size
 
 	for(int i = 0; i < DIMENSIONS; i++)
 		x_vector[i] = 0.0;

@@ -20,6 +20,7 @@ double* Population::GetIndividual(const int index){
 
 
 void Population::AddIndividual(double individual[DIMENSIONS]){
+	char tmp;
 	if(curIndex < MAX_POPULATION){
 		CopyIndividual(individual, population[curIndex]);
 		curIndex++;
@@ -82,6 +83,14 @@ void Population::CalcFitness(){
 		fitnessPopulation[i] = searchFunction->Fitness(population[i]);
 		std::cout << "Population:: " << i << " Fitness:: " << fitnessPopulation[i] << std::endl;
 	}
+}
+
+void Population::CalcFitness(std::ofstream &file){
+	for(int i = 0; i < MAX_POPULATION; i++){
+		fitnessPopulation[i] = searchFunction->Fitness(population[i]);
+		file << "Population:: " << i << " Fitness:: " << fitnessPopulation[i] << std::endl;
+	}
+	file << std::endl;
 }
 
 void Population::CopyIndividual(const double i_vector[], double m_vector[]){

@@ -9,6 +9,8 @@ private:
 	Population *searchPopulation;
 	Population *selectedPopulation;
 
+	std::ofstream debugFile;
+
 	int TourneySize;
 
 public:
@@ -30,5 +32,7 @@ public:
 	void CopyIndividual(const double[], double []);
 	void CopyPopulation(Population *, Population*);
 	void PrintIndividual(const double []);	//for debugging
+
+	void GetBest();	//returns the best 
 };
 
