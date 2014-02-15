@@ -7,7 +7,6 @@ GeneticAlgorithm::GeneticAlgorithm(function * i_function)
 	searchPopulation = new Population(searchFunction);
 	selectedPopulation = new Population(searchFunction);
 	TourneySize = i_function->TourneySize;
-	debugFile.open("debug.txt");
 }
 
 void GeneticAlgorithm::Init(){
@@ -34,6 +33,8 @@ void GeneticAlgorithm::Search(){
 	//do this later
 	//how many generations?
 
+	debugFile.open("debug.txt");
+	debugFile << std::endl << std::endl;
 	for(int i = 0; i < NUM_GENERATIONS; i++){
 		//Find the best individual and elitist them over
 		bestIndex = GetBestIndividual();
@@ -46,20 +47,20 @@ void GeneticAlgorithm::Search(){
 			Select();
 		}
 
-		//we don't reinitialize selectedPopulation
-		//searchPopulation = selectedPopulation;
 		CopyPopulation(selectedPopulation, searchPopulation);
 		selectedPopulation->ResetPopulation();
-		//searchPopulation->CalcFitness();
-		if(DEBUG){
-			//debugFile << "generation:: " << i << std::endl;
-			searchPopulation->CalcFitness();
+
+		if(i % 10 == 0){
+			std::cout << i << ":: ";
+			debugFile << i << ":: ";
+			GetBestAndAverage();
 		}
 	}
 	debugFile.close();
 }
 
 void GeneticAlgorithm::Select(){
+	char tmp;
 	int firstWinnerIndex;
 	int secondWinnerIndex;
 	double firstParent[DIMENSIONS];
@@ -71,7 +72,7 @@ void GeneticAlgorithm::Select(){
 	CopyIndividual(searchPopulation->GetIndividual(firstWinnerIndex), firstParent);
 	CopyIndividual(searchPopulation->GetIndividual(secondWinnerIndex), secondParent);
 
-	//crossover would be here
+	Crossover(firstParent, secondParent);
 
 	Mutate(firstParent);
 	Mutate(secondParent);
@@ -105,14 +106,22 @@ int GeneticAlgorithm::TourneySelect(){	//returns the index (max pop) of the winn
 	return winningIndex;
 }
 
-void GeneticAlgorithm::Crossover(double [], double []){
-
+void GeneticAlgorithm::Crossover(double first[DIMENSIONS], double second[DIMENSIONS]){
+	double tmp;
+	for(int i = 0; i < DIMENSIONS; i++){
+		if(rand()%100 < 50){	//uniform distribution with some RNG
+			double tmp = first[i];
+			first[i] = second[i];
+			second[i] = tmp;
+		}
+	}
 }
 
 void GeneticAlgorithm::Mutate(double individual[]){
 	//adjust neighbors
 	char tmp;
 	double changeValue = (searchFunction->range[HI_RANGE] - searchFunction->range[LOW_RANGE])/searchFunction->rateOfChange;
+	changeValue = static_cast<float>(std::rand())/(static_cast <float>(RAND_MAX/(changeValue*2))) - changeValue;
 	int change;
 	for(int i = 0; i < DIMENSIONS; i++){
 		change = rand()%4;
@@ -182,5 +191,19 @@ void GeneticAlgorithm::GetBest(){
 	}
 	sum = sum/DIMENSIONS;
 	sum = sqrt(sum);
-	std::cout << "The Standard Deviation is " << sum << std::endl;
+}
+
+void GeneticAlgorithm::GetBestAndAverage(){
+	double average = 0.0;
+	for(int i = 0; i < MAX_POPULATION; i++){
+		average += searchPopulation->fitnessPopulation[i];
+	}
+	average = average/MAX_POPULATION;
+
+	double best = searchPopulation->fitnessPopulation[GetBestIndividual()];
+
+	std::cout << average << " " << best << std::endl;
+	debugFile << average << " " << best << std::endl;
+
+
 }

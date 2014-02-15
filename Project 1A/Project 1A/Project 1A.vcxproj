@@ -74,20 +74,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ackley.cpp" />
     <ClCompile Include="function.cpp" />
     <ClCompile Include="GeneticAlgorithm.cpp" />
+    <ClCompile Include="Grewangk.cpp" />
     <ClCompile Include="Individual.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Population.cpp" />
+    <ClCompile Include="Rastrigin.cpp" />
+    <ClCompile Include="Rosenbrock.cpp" />
     <ClCompile Include="Schwefel.cpp" />
     <ClCompile Include="Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ackley.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="GeneticAlgorithm.h" />
     <ClInclude Include="globals.h" />
+    <ClInclude Include="Grewangk.h" />
     <ClInclude Include="Individual.h" />
     <ClInclude Include="Population.h" />
+    <ClInclude Include="Rastrigin.h" />
+    <ClInclude Include="Rosenbrock.h" />
     <ClInclude Include="Schwefel.h" />
     <ClInclude Include="Sphere.h" />
   </ItemGroup>

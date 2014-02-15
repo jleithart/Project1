@@ -33,6 +33,8 @@ public:
 	void CopyPopulation(Population *, Population*);
 	void PrintIndividual(const double []);	//for debugging
 
+	void GetBestAndAverage();
+
 	void GetBest();	//returns the best 
 };
 

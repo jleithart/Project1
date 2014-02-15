@@ -1,5 +1,9 @@
 #include "Sphere.h"
 #include "Schwefel.h"
+#include "Grewangk.h"
+#include "Ackley.h"
+#include "Rastrigin.h"
+#include "Rosenbrock.h"
 #include "function.h"
 #include "GeneticAlgorithm.h"
 
@@ -24,6 +28,10 @@ int main(){
 
 	Sphere *search_sphere = new Sphere();
 	Schwefel *search_schwefel = new Schwefel();
+	Grewangk *search_grewangk = new Grewangk();
+	Ackley *search_ackley = new Ackley();
+	Rastrigin *search_rastrigin = new Rastrigin();
+	Rosenbrock *search_rosenbrock = new Rosenbrock();
 	char tmp;
 
 	if(DEBUG){
@@ -34,73 +42,41 @@ int main(){
 
 	GeneticAlgorithm *GA = new GeneticAlgorithm(search_sphere);
 	GA->Init();
-	//GA->PrintPopulation();
-	GA->PrintFitness();
-
-	//cout << "wop wop" << endl;
 	GA->Search();
 
-	double SphereVector[DIMENSIONS];
-	double tmpSphereVector[DIMENSIONS];
-	double SchwefelVector[DIMENSIONS];
-	double tmpSchwefelVector[DIMENSIONS];
+	cin >> tmp;
 
-
-	/*cout << "SPHERE VECTORS!!" << endl;
-	//randomize Sphere vector
-	RandomizeVector(search_sphere, SphereVector);
-	CopyVector(SphereVector, tmpSphereVector);
-
-	cout << "HILL CLIMBING" << endl;
-	PrintVector(SphereVector);
-	cout << endl << search_sphere->Fitness(SphereVector) << endl;
-	HillClimb(search_sphere, SphereVector);
-	cout << endl;
-	PrintVector(SphereVector);
-	cout << endl << search_sphere->Fitness(SphereVector) << endl;
-	StandardDeviation(search_sphere, SphereVector);
-
-	//simulated annealing
-	cout << "SA" << endl;
-	PrintVector(tmpSphereVector);
-	cout << endl << search_sphere->Fitness(tmpSphereVector) << endl;
-	SimulatedAnnealing(search_sphere, tmpSphereVector);
-	cout << endl;
-	PrintVector(tmpSphereVector);
-	cout << endl << search_sphere->Fitness(tmpSphereVector) << endl;
-	StandardDeviation(search_sphere, tmpSphereVector);
-
-
-	cout << "SCHWEFEL VECTORS!!" << endl;
-	//randomize Schwefel vector
-	RandomizeVector(search_schwefel, SchwefelVector);
-	CopyVector(SchwefelVector, tmpSchwefelVector);
-	//RandomizeVector(search_schwefel, schefelSAVector);
-
-	PrintVector(SchwefelVector);
-	cout << endl << search_schwefel->Fitness(SchwefelVector) << endl;
-	HillClimb(search_schwefel, SchwefelVector);
-	cout << endl;
-	PrintVector(SchwefelVector);
-	cout << endl << search_schwefel->Fitness(SchwefelVector) << endl;
-	StandardDeviation(search_schwefel, SchwefelVector);
-
-	cout << "SA on same" << endl;
-	PrintVector(tmpSchwefelVector);
-	cout << endl << search_schwefel->Fitness(tmpSchwefelVector) << endl;
-	SimulatedAnnealing(search_schwefel, tmpSchwefelVector);
-	cout << endl;
-	PrintVector(tmpSchwefelVector);
-	cout << endl << search_schwefel->Fitness(tmpSchwefelVector) << endl;
-	StandardDeviation(search_schwefel, tmpSchwefelVector);*/
-
-	// use separate function to find local minimum;
-
-	GA->PrintFitness();
-
-	GA->GetBest();
+	//schwefel
+	GeneticAlgorithm *GASchwefel = new GeneticAlgorithm(search_schwefel);
+	GASchwefel->Init();
+	GASchwefel->Search();
 
 	cin >> tmp;
+
+	GeneticAlgorithm *GAGrewangk = new GeneticAlgorithm(search_schwefel);
+	GAGrewangk->Init();
+	GAGrewangk->Search();
+
+	cin >> tmp;
+
+	GeneticAlgorithm *GAAckley = new GeneticAlgorithm(search_schwefel);
+	GAAckley->Init();
+	GAAckley->Search();
+
+	cin >> tmp;
+
+	GeneticAlgorithm *GARastrigin = new GeneticAlgorithm(search_schwefel);
+	GARastrigin->Init();
+	GARastrigin->Search();
+
+	cin >> tmp;
+
+	GeneticAlgorithm *GARosenbrock = new GeneticAlgorithm(search_schwefel);
+	GARosenbrock->Init();
+	GARosenbrock->Search();
+
+	cin >> tmp;
+
 	if(DEBUG){
 		//debugFile.close();
 	}

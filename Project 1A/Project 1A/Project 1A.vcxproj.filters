@@ -36,6 +36,18 @@
     <ClCompile Include="Individual.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Rosenbrock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rastrigin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ackley.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Grewangk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="function.h">
@@ -57,6 +69,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rosenbrock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rastrigin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ackley.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Grewangk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
