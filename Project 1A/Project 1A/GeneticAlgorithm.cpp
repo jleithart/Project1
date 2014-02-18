@@ -50,9 +50,9 @@ void GeneticAlgorithm::Search(){
 		CopyPopulation(selectedPopulation, searchPopulation);
 		selectedPopulation->ResetPopulation();
 
-		if(i % 10 == 0){
+		if(i % 100 == 0){
 			std::cout << i << ":: ";
-			debugFile << i << ":: ";
+			debugFile << i << " ";
 			GetBestAndAverage();
 		}
 	}
