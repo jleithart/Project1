@@ -53,25 +53,25 @@ int main(){
 
 	cin >> tmp;
 
-	GeneticAlgorithm *GAGrewangk = new GeneticAlgorithm(search_schwefel);
+	GeneticAlgorithm *GAGrewangk = new GeneticAlgorithm(search_grewangk);
 	GAGrewangk->Init();
 	GAGrewangk->Search();
 
 	cin >> tmp;
 
-	GeneticAlgorithm *GAAckley = new GeneticAlgorithm(search_schwefel);
+	GeneticAlgorithm *GAAckley = new GeneticAlgorithm(search_ackley);
 	GAAckley->Init();
 	GAAckley->Search();
 
 	cin >> tmp;
 
-	GeneticAlgorithm *GARastrigin = new GeneticAlgorithm(search_schwefel);
+	GeneticAlgorithm *GARastrigin = new GeneticAlgorithm(search_rastrigin);
 	GARastrigin->Init();
 	GARastrigin->Search();
 
 	cin >> tmp;
 
-	GeneticAlgorithm *GARosenbrock = new GeneticAlgorithm(search_schwefel);
+	GeneticAlgorithm *GARosenbrock = new GeneticAlgorithm(search_rosenbrock);
 	GARosenbrock->Init();
 	GARosenbrock->Search();
 

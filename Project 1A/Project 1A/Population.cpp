@@ -75,6 +75,7 @@ void Population::InitializeVector(double m_array[DIMENSIONS]){
 	for(int i = 0; i < DIMENSIONS; i++){
 		rand_val = searchFunction->range[LOW_RANGE] + static_cast<float>(std::rand())/(static_cast <float>(RAND_MAX/(searchFunction->range[HI_RANGE] - searchFunction->range[LOW_RANGE])));
 		m_array[i] = rand_val;
+		//m_array[i] = -420;
 	}
 }
 

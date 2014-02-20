@@ -25,5 +25,5 @@ double Rosenbrock::Fitness(const double i_vector[DIMENSIONS]){
 		retval += 100*(i_vector[i+1] - i_vector[i]*i_vector[i]) + (i_vector[i] - 1)*(i_vector[i] - 1);
 	}
 
-	return retval;
+	return fabs(retval);
 }

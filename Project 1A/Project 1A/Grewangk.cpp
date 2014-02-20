@@ -24,10 +24,10 @@ double Grewangk::Fitness(const double i_vector[DIMENSIONS]){
 	double sum = 1.0;
 	for(int i = 0; i < DIMENSIONS; i++){
 		for(int j = 0; j < DIMENSIONS; j++){
-			product *= cos(i_vector[j]/sqrt(fabs((double)i)));
+			product *= cos(i_vector[j]/sqrt(fabs((double)i+1)));
 		}
 		sum += (i_vector[i]*i_vector[i]/4000) - product;
 	}
 
-	return sum;
+	return fabs(sum);
 }
