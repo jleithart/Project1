@@ -34,7 +34,7 @@ void GeneticAlgorithm::Search(){
 	//how many generations?
 
 	debugFile.open("debug.txt");
-	debugFile << std::endl << std::endl;
+	debugFile << "Generation " << "Average " << "Best" << std::endl;
 	for(int i = 0; i < NUM_GENERATIONS; i++){
 		//Find the best individual and elitist them over
 		bestIndex = GetBestIndividual();
@@ -50,11 +50,12 @@ void GeneticAlgorithm::Search(){
 		CopyPopulation(selectedPopulation, searchPopulation);
 		selectedPopulation->ResetPopulation();
 
-		if(i % 100 == 0){
+		//if(i % 10 == 0){
 			std::cout << i << ":: ";
 			debugFile << i << " ";
 			GetBestAndAverage();
-		}
+		//}
+		
 	}
 	debugFile.close();
 }
